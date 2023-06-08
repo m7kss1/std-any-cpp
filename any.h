@@ -5,24 +5,11 @@
 class Any {
 private:
 public:
-    Any() : storage_(nullptr) {
-    }
-
-    template <class T>
-    explicit Any(const T& value) : storage_(new Derived(value)) {
-    }
+    Any();
 
     void Swap(Any& rhs);
 
-    template <class T>
-    Any& operator=(const T& value) {
-        delete storage_;
-        storage_ = new Derived<T>(value);
-        return *this;
-    }
-
-    Any(const Any& rhs) : storage_(rhs.storage_->GetCopy()) {
-    }
+    Any(const Any& rhs);
 
     Any& operator=(Any rhs);
 
@@ -30,9 +17,17 @@ public:
 
     bool Empty() const;
 
-    void Clear() {
+    void Clear();
+
+    template <class T>
+    explicit Any(const T& value) : storage_(new Derived(value)) {
+    }
+
+    template <class T>
+    Any& operator=(const T& value) {
         delete storage_;
-        storage_ = nullptr;
+        storage_ = new Derived<T>(value);
+        return *this;
     }
 
     template <class T>
