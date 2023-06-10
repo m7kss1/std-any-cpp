@@ -24,6 +24,7 @@ bool Any::Empty() const {
 Any::~Any() {
     Clear();
 }
+
 void Any::Clear() {
     delete storage_;
     storage_ = nullptr;
